@@ -2,8 +2,9 @@ version: "2"
 services:
   backend:
     image: mongo:latest
+    command: mongod --port 1234
     ports:
-      - "27017:27017"
+      - "1234:1234"
     networks:
         - docker_cont_network
   swagger:
