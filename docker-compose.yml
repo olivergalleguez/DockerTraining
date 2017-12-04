@@ -32,6 +32,8 @@ services:
         - backend
       networks:
         - docker_cont_network
+      environment:
+        - PYTHONUNBUFFERED=0
 networks:
   docker_cont_network:
     driver: bridge

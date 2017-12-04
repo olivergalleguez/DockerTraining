@@ -23,18 +23,18 @@
 			</div>
 		</form>
 
-		<form class="form-border" action="/post" method="PUT" id="edit-form">
+		<form class="form-border hidden" method="PUT" id="edit-form">
 			<h4>Edit Entry</h4>
-			<input type="hidden" name="id" />
+			<input type="hidden" name="id" id="edit-id"/>
 			<div class="title wrapper">
-				<input id="input-title" type="text" name="title" placeholder="Title"></input>
+				<input id="edit-title" type="text" name="title" placeholder="Title"></input>
 			</div>
 
 			<div class="title wrapper">
-				<textarea id="input-post" name="post"></textarea>
+				<textarea id="edit-post" name="post"></textarea>
 			</div>
 			<div  class="description wrapper">
-				<input type="submit" id="input-submit" value="POST"></input>
+				<input type="submit" id="edit-submit" value="POST"></input>
 			</div>
 		</form>
 
@@ -61,6 +61,11 @@
 						if (request.status === 200) {
 						var response = JSON.parse(request.responseText);
 						console.log("RESPONSE FROM AJAX", response);
+						document.getElementById("add-form").classList.add("hidden");
+						document.getElementById("edit-form").classList.remove("hidden");
+						document.getElementById("edit-title").value = response.title;
+						document.getElementById("edit-post").value = response.post;
+						document.getElementById("edit-id").value = response._id;
 						} else {
 						alert('There was a problem with the request.');
 						}
@@ -68,6 +73,39 @@
 				}
 				request.open("GET", url, true);
 				request.send();
+			}
+
+			document.getElementById("edit-form").onsubmit = function(event){
+				event.preventDefault();
+				var editform = document.getElementById("edit-form");
+				console.log("editform", editform);
+
+				var body = {
+					"title" : editform[1].value,
+					"post" : editform[2].value
+				}
+
+				var url = "/posts/" + editform[0].value;
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function(){
+					if (request.readyState === XMLHttpRequest.DONE) {
+						if (request.status === 200) {
+							var response = JSON.parse(request.responseText)[0];
+							console.log("RESPONSE FROM AJAX", response);
+							alert("Entry successfuly modified.");
+							location.reload();
+						} else {
+							alert('There was a problem with the request.');
+						}
+					}
+				}
+				request.open("PUT", url, true);
+				request.setRequestHeader("Content-Type", "application/json");
+				request.send(JSON.stringify(body));
+
+ 
+
+
 			}
 
 			document.addEventListener("DOMContentLoaded", function(event) {

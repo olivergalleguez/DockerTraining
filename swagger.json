@@ -89,7 +89,7 @@
         {
           "in": "path",
           "name": "id",
-          "description": "Post object that needs to be edited to the Blog",
+          "description": "Post object id",
           "required": true,
           "type": "string"
         }
@@ -100,7 +100,7 @@
         ],
         "summary": "Get all blog posts",
         "description": "",
-        "operationId": "getPostById",
+        "operationId": "get_post_by_id",
         "consumes": [
           "application/json",
           "application/xml"
@@ -120,7 +120,8 @@
           "blog post"
         ],
         "summary": "edit post by id",
-        "consumes": [
+        "operationId": "edit_post",
+        "consumes": [ 
           "application/json",
           "application/xml"
         ],

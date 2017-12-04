@@ -55,9 +55,27 @@ def get_all_posts():
 @app.route("/posts/<id>", methods=['GET'])
 def get_post_by_id(id):
     
-    _posts = db.blogpostDB.find({"_id": ObjectId(id)})
-    posts = [post for post in _posts]
-    return JSONEncoder().encode(posts)
+    post = db.blogpostDB.find_one({"_id": ObjectId(id)})
+    return JSONEncoder().encode(post)
+
+@app.route("/posts/<id>", methods=['PUT'])
+def edit_post(id):    
+    data = request.get_json()
+    print("request data")
+    print(data['post']);
+    
+    post = db.blogpostDB.find_one({"_id": ObjectId(id)})
+    db.blogpostDB.update_one(
+        {"_id": ObjectId(id)}, 
+        {
+            "$set" : {
+                'title': data['title'],
+                'post': data['post']
+             }
+        }
+    )
+    post = db.blogpostDB.find_one({"_id": ObjectId(id)})
+    return JSONEncoder().encode(post)
 
 
 @app.route('/new', methods=['POST'])
