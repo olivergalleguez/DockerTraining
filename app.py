@@ -52,6 +52,13 @@ def get_all_posts():
     posts = [post for post in _posts]
     return JSONEncoder().encode(posts)
 
+@app.route("/posts/<id>", methods=['GET'])
+def get_post_by_id(id):
+    
+    _posts = db.blogpostDB.find({"_id": ObjectId(id)})
+    posts = [post for post in _posts]
+    return JSONEncoder().encode(posts)
+
 
 @app.route('/new', methods=['POST'])
 def new():

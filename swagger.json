@@ -83,6 +83,68 @@
           }
         }
       }
+    },
+    "/posts/{id}": {
+      "parameters": [
+        {
+          "in": "path",
+          "name": "id",
+          "description": "Post object that needs to be edited to the Blog",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": [
+          "blog post"
+        ],
+        "summary": "Get all blog posts",
+        "description": "",
+        "operationId": "getPostById",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "[{'title':title,'post':post, _id:id}]"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "blog post"
+        ],
+        "summary": "edit post by id",
+        "consumes": [
+          "application/json",
+          "application/xml"
+        ],
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Post object that needs to be added to the Blog",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/blogpostDB"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "[{'title':title,'post':post, _id:id}]"
+          }
+        }
+      }
     }
   },
   "definitions": {
