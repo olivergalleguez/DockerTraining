@@ -48,6 +48,7 @@
 				</div>
 				<div>
 					<button onclick="editPostForm('{{ post._id }}')">Edit</button>
+					<button onclick="deletePost('{{ post._id }}')">Delete</button>
 				</div>
 		  	</div>
 		{% endfor %}
@@ -103,9 +104,24 @@
 				request.setRequestHeader("Content-Type", "application/json");
 				request.send(JSON.stringify(body));
 
- 
+			}
 
-
+			var deletePost = function(id){
+				var url = "/posts/" + id;
+				var request = new XMLHttpRequest();
+				request.onreadystatechange = function(){
+					if (request.readyState === XMLHttpRequest.DONE) {
+						if (request.status === 200) {
+							var response = JSON.parse(request.responseText);
+							alert("Post successfully removed.");
+							location.reload();
+						} else {
+							alert('There was a problem with the request.');
+						}
+					}
+				}
+				request.open("DELETE", url, true);
+				request.send();
 			}
 
 			document.addEventListener("DOMContentLoaded", function(event) {

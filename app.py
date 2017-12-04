@@ -58,6 +58,12 @@ def get_post_by_id(id):
     post = db.blogpostDB.find_one({"_id": ObjectId(id)})
     return JSONEncoder().encode(post)
 
+@app.route("/posts/<id>", methods=['DELETE'])
+def delete_post_by_id(id):
+    
+    post = db.blogpostDB.delete_one({"_id": ObjectId(id)})
+    return "true"
+
 @app.route("/posts/<id>", methods=['PUT'])
 def edit_post(id):    
     data = request.get_json()
